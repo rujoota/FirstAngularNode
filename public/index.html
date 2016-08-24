@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myModule">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+    <script src="scripts/angular.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/filters.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+
+
+</head>
+<body >
+
+    <div ng-controller="myController">
+        Rows to display:<input type="number" step="1" min="0" max="5" ng-model="rowLimit"><br/><br/>
+        <input type="checkbox" ng-model="hideSalary">Hide salary
+        <br/><br/>
+        Search:<input type="text" ng-model="searchTerm" placeholder="search">
+                <br/><br/>
+        <table border="1">
+            <tr>
+                <th ng-click="sortData('firstName')"><div ng-class="getSortClass('firstName')"> firstname</div></th>
+                <th ng-click="sortData('lastName')"><div ng-class="getSortClass('lastName')"> lastName</div></th>
+                <th ng-click="sortData('dob')"><div ng-class="getSortClass('dob')"> dob</div></th>
+                <th ng-click="sortData('salary')" ng-hide="hideSalary"><div ng-class="getSortClass('salary')"> salary</div></th>
+                <th ng-click="sortData('gender')"><div ng-class="getSortClass('gender')"> gender</div></th>
+            </tr>
+            <tr ng-repeat="emp in employees | limitTo:rowLimit | orderBy:sortColumn:reverseSort | filter:searchMethod">
+                <td>{{ emp.firstName | uppercase }}</td>
+                <td>{{ emp.lastName | lowercase }}</td>
+                <td>{{ emp.dob | date: "yyyy-MMM-dd" }}</td>
+                <td ng-hide="hideSalary">{{ emp.salary | number:2 }}</td>
+                <td>{{ emp.gender | genderFilter}}</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
